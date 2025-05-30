@@ -7,11 +7,6 @@ chmod +x terraform/scripts/package_lambda.sh
 ./terraform/scripts/package_lambda.sh functions/updateCompatibility
 ./terraform/scripts/package_lambda.sh functions/deleteCompatibility
 
-# Initialize Terraform
 terraform init
-
-# Plan the changes
 terraform plan
-
-# Apply the changes
 terraform apply
