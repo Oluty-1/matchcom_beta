@@ -1,4 +1,4 @@
-const API_URL = 'https://<your-api-id>.execute-api.<your-region>.amazonaws.com/prod';
+const API_URL = 'https://a12g712cnh.execute-api.us-east-1.amazonaws.com/prod';
 
 function calculateCompatibility() {
   const name1 = document.getElementById('name1').value.trim();
