@@ -1,0 +1,1067 @@
+[0m[1mmodule.get_compatibility.data.aws_s3_object.lambda_zip: Reading...[0m[0m
+[0m[1mmodule.calculate_compatibility.data.aws_s3_object.lambda_zip: Reading...[0m[0m
+[0m[1mmodule.get_compatibility.data.aws_s3_object.lambda_zip: Read complete after 1s [id=compatibility-bucket-test/functions/getCompatibility/function.zip][0m
+[0m[1mmodule.process_compatibility.data.aws_s3_object.lambda_zip: Reading...[0m[0m
+[0m[1mmodule.delete_compatibility.data.aws_s3_object.lambda_zip: Reading...[0m[0m
+[0m[1mmodule.update_compatibility.data.aws_s3_object.lambda_zip: Reading...[0m[0m
+[0m[1mmodule.calculate_compatibility.data.aws_s3_object.lambda_zip: Read complete after 2s [id=compatibility-bucket-test/functions/calculateCompatibility/function.zip][0m
+[0m[1mmodule.process_compatibility.data.aws_s3_object.lambda_zip: Read complete after 1s [id=compatibility-bucket-test/functions/processCompatibility/function.zip][0m
+[0m[1mmodule.delete_compatibility.data.aws_s3_object.lambda_zip: Read complete after 1s [id=compatibility-bucket-test/functions/deleteCompatibility/function.zip][0m
+[0m[1mmodule.update_compatibility.data.aws_s3_object.lambda_zip: Read complete after 1s [id=compatibility-bucket-test/functions/updateCompatibility/function.zip][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.calculate_compatibility.aws_api_gateway_integration.lambda_integration[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_integration" "lambda_integration" {
+      [32m+[0m[0m cache_namespace         = (known after apply)
+      [32m+[0m[0m connection_type         = "INTERNET"
+      [32m+[0m[0m http_method             = "POST"
+      [32m+[0m[0m id                      = (known after apply)
+      [32m+[0m[0m integration_http_method = "POST"
+      [32m+[0m[0m passthrough_behavior    = (known after apply)
+      [32m+[0m[0m resource_id             = (known after apply)
+      [32m+[0m[0m rest_api_id             = (known after apply)
+      [32m+[0m[0m timeout_milliseconds    = 29000
+      [32m+[0m[0m type                    = "AWS_PROXY"
+      [32m+[0m[0m uri                     = (known after apply)
+    }
+
+[1m  # module.calculate_compatibility.aws_cloudwatch_log_group.lambda_log_group[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_log_group" "lambda_log_group" {
+      [32m+[0m[0m arn               = (known after apply)
+      [32m+[0m[0m id                = (known after apply)
+      [32m+[0m[0m log_group_class   = (known after apply)
+      [32m+[0m[0m name              = "/aws/lambda/CalculateCompatibilityFunction"
+      [32m+[0m[0m name_prefix       = (known after apply)
+      [32m+[0m[0m retention_in_days = 14
+      [32m+[0m[0m skip_destroy      = false
+      [32m+[0m[0m tags_all          = (known after apply)
+    }
+
+[1m  # module.calculate_compatibility.aws_iam_role.lambda_role[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "lambda_role" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRole"
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "lambda.amazonaws.com"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "CalculateCompatibilityFunction-role"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = (known after apply)
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.calculate_compatibility.aws_iam_role_policy.lambda_policy[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy" "lambda_policy" {
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "CalculateCompatibilityFunction-policy"
+      [32m+[0m[0m name_prefix = (known after apply)
+      [32m+[0m[0m policy      = (known after apply)
+      [32m+[0m[0m role        = (known after apply)
+    }
+
+[1m  # module.calculate_compatibility.aws_lambda_event_source_mapping.sqs_mapping[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_event_source_mapping" "sqs_mapping" {
+      [32m+[0m[0m arn                           = (known after apply)
+      [32m+[0m[0m batch_size                    = 10
+      [32m+[0m[0m enabled                       = true
+      [32m+[0m[0m event_source_arn              = (known after apply)
+      [32m+[0m[0m function_arn                  = (known after apply)
+      [32m+[0m[0m function_name                 = (known after apply)
+      [32m+[0m[0m id                            = (known after apply)
+      [32m+[0m[0m last_modified                 = (known after apply)
+      [32m+[0m[0m last_processing_result        = (known after apply)
+      [32m+[0m[0m maximum_record_age_in_seconds = (known after apply)
+      [32m+[0m[0m maximum_retry_attempts        = (known after apply)
+      [32m+[0m[0m parallelization_factor        = (known after apply)
+      [32m+[0m[0m state                         = (known after apply)
+      [32m+[0m[0m state_transition_reason       = (known after apply)
+      [32m+[0m[0m tags_all                      = (known after apply)
+      [32m+[0m[0m uuid                          = (known after apply)
+
+      [32m+[0m[0m amazon_managed_kafka_event_source_config (known after apply)
+
+      [32m+[0m[0m self_managed_kafka_event_source_config (known after apply)
+    }
+
+[1m  # module.calculate_compatibility.aws_lambda_function.lambda[0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_function" "lambda" {
+      [32m+[0m[0m architectures                  = (known after apply)
+      [32m+[0m[0m arn                            = (known after apply)
+      [32m+[0m[0m code_sha256                    = (known after apply)
+      [32m+[0m[0m function_name                  = "CalculateCompatibilityFunction"
+      [32m+[0m[0m handler                        = "index.handler"
+      [32m+[0m[0m id                             = (known after apply)
+      [32m+[0m[0m invoke_arn                     = (known after apply)
+      [32m+[0m[0m last_modified                  = (known after apply)
+      [32m+[0m[0m memory_size                    = 128
+      [32m+[0m[0m package_type                   = "Zip"
+      [32m+[0m[0m publish                        = false
+      [32m+[0m[0m qualified_arn                  = (known after apply)
+      [32m+[0m[0m qualified_invoke_arn           = (known after apply)
+      [32m+[0m[0m reserved_concurrent_executions = -1
+      [32m+[0m[0m role                           = (known after apply)
+      [32m+[0m[0m runtime                        = "nodejs22.x"
+      [32m+[0m[0m s3_bucket                      = "compatibility-bucket-test"
+      [32m+[0m[0m s3_key                         = "functions/calculateCompatibility/function.zip"
+      [32m+[0m[0m signing_job_arn                = (known after apply)
+      [32m+[0m[0m signing_profile_version_arn    = (known after apply)
+      [32m+[0m[0m skip_destroy                   = false
+      [32m+[0m[0m source_code_hash               = "CQLEGP68jvAtVFD0c6qKsGga4nN/2m8DY2rVNKUhzc8="
+      [32m+[0m[0m source_code_size               = (known after apply)
+      [32m+[0m[0m tags_all                       = (known after apply)
+      [32m+[0m[0m timeout                        = 120
+      [32m+[0m[0m version                        = (known after apply)
+
+      [32m+[0m[0m environment {
+          [32m+[0m[0m variables = (known after apply)
+        }
+
+      [32m+[0m[0m ephemeral_storage (known after apply)
+
+      [32m+[0m[0m logging_config (known after apply)
+
+      [32m+[0m[0m tracing_config {
+          [32m+[0m[0m mode = "Active"
+        }
+    }
+
+[1m  # module.calculate_compatibility.aws_lambda_permission.api_gateway_permission[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_permission" "api_gateway_permission" {
+      [32m+[0m[0m action              = "lambda:InvokeFunction"
+      [32m+[0m[0m function_name       = "CalculateCompatibilityFunction"
+      [32m+[0m[0m id                  = (known after apply)
+      [32m+[0m[0m principal           = "apigateway.amazonaws.com"
+      [32m+[0m[0m source_arn          = (known after apply)
+      [32m+[0m[0m statement_id        = "AllowAPIGatewayInvoke"
+      [32m+[0m[0m statement_id_prefix = (known after apply)
+    }
+
+[1m  # module.delete_compatibility.aws_api_gateway_integration.lambda_integration[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_integration" "lambda_integration" {
+      [32m+[0m[0m cache_namespace         = (known after apply)
+      [32m+[0m[0m connection_type         = "INTERNET"
+      [32m+[0m[0m http_method             = "DELETE"
+      [32m+[0m[0m id                      = (known after apply)
+      [32m+[0m[0m integration_http_method = "POST"
+      [32m+[0m[0m passthrough_behavior    = (known after apply)
+      [32m+[0m[0m resource_id             = (known after apply)
+      [32m+[0m[0m rest_api_id             = (known after apply)
+      [32m+[0m[0m timeout_milliseconds    = 29000
+      [32m+[0m[0m type                    = "AWS_PROXY"
+      [32m+[0m[0m uri                     = (known after apply)
+    }
+
+[1m  # module.delete_compatibility.aws_cloudwatch_log_group.lambda_log_group[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_log_group" "lambda_log_group" {
+      [32m+[0m[0m arn               = (known after apply)
+      [32m+[0m[0m id                = (known after apply)
+      [32m+[0m[0m log_group_class   = (known after apply)
+      [32m+[0m[0m name              = "/aws/lambda/DeleteCompatibilityFunction"
+      [32m+[0m[0m name_prefix       = (known after apply)
+      [32m+[0m[0m retention_in_days = 14
+      [32m+[0m[0m skip_destroy      = false
+      [32m+[0m[0m tags_all          = (known after apply)
+    }
+
+[1m  # module.delete_compatibility.aws_iam_role.lambda_role[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "lambda_role" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRole"
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "lambda.amazonaws.com"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "DeleteCompatibilityFunction-role"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = (known after apply)
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.delete_compatibility.aws_iam_role_policy.lambda_policy[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy" "lambda_policy" {
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "DeleteCompatibilityFunction-policy"
+      [32m+[0m[0m name_prefix = (known after apply)
+      [32m+[0m[0m policy      = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "logs:CreateLogGroup",
+                          [32m+[0m[0m "logs:CreateLogStream",
+                          [32m+[0m[0m "logs:PutLogEvents",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "s3:GetObject",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "arn:aws:s3:::compatibility-bucket-test/functions/deleteCompatibility/function.zip"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "sqs:SendMessage",
+                          [32m+[0m[0m "sqs:ReceiveMessage",
+                          [32m+[0m[0m "sqs:DeleteMessage",
+                          [32m+[0m[0m "sqs:GetQueueAttributes",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "dynamodb:GetItem",
+                          [32m+[0m[0m "dynamodb:PutItem",
+                          [32m+[0m[0m "dynamodb:UpdateItem",
+                          [32m+[0m[0m "dynamodb:DeleteItem",
+                          [32m+[0m[0m "dynamodb:Query",
+                          [32m+[0m[0m "dynamodb:Scan",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "arn:aws:dynamodb:us-east-1:*:table/CompatibilityResults-prod"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "xray:PutTraceSegments",
+                          [32m+[0m[0m "xray:PutTelemetryRecords",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m role        = (known after apply)
+    }
+
+[1m  # module.delete_compatibility.aws_lambda_function.lambda[0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_function" "lambda" {
+      [32m+[0m[0m architectures                  = (known after apply)
+      [32m+[0m[0m arn                            = (known after apply)
+      [32m+[0m[0m code_sha256                    = (known after apply)
+      [32m+[0m[0m function_name                  = "DeleteCompatibilityFunction"
+      [32m+[0m[0m handler                        = "index.handler"
+      [32m+[0m[0m id                             = (known after apply)
+      [32m+[0m[0m invoke_arn                     = (known after apply)
+      [32m+[0m[0m last_modified                  = (known after apply)
+      [32m+[0m[0m memory_size                    = 128
+      [32m+[0m[0m package_type                   = "Zip"
+      [32m+[0m[0m publish                        = false
+      [32m+[0m[0m qualified_arn                  = (known after apply)
+      [32m+[0m[0m qualified_invoke_arn           = (known after apply)
+      [32m+[0m[0m reserved_concurrent_executions = -1
+      [32m+[0m[0m role                           = (known after apply)
+      [32m+[0m[0m runtime                        = "nodejs22.x"
+      [32m+[0m[0m s3_bucket                      = "compatibility-bucket-test"
+      [32m+[0m[0m s3_key                         = "functions/deleteCompatibility/function.zip"
+      [32m+[0m[0m signing_job_arn                = (known after apply)
+      [32m+[0m[0m signing_profile_version_arn    = (known after apply)
+      [32m+[0m[0m skip_destroy                   = false
+      [32m+[0m[0m source_code_hash               = "ax0P6hWfjTw9AFIlfaBxY49ivrEF156CN4E8gZ1k9SA="
+      [32m+[0m[0m source_code_size               = (known after apply)
+      [32m+[0m[0m tags_all                       = (known after apply)
+      [32m+[0m[0m timeout                        = 120
+      [32m+[0m[0m version                        = (known after apply)
+
+      [32m+[0m[0m environment {
+          [32m+[0m[0m variables = {
+              [32m+[0m[0m "ENVIRONMENT" = "DeleteCompatibilityFunction"
+              [32m+[0m[0m "TABLE_NAME"  = "CompatibilityResults-prod"
+            }
+        }
+
+      [32m+[0m[0m ephemeral_storage (known after apply)
+
+      [32m+[0m[0m logging_config (known after apply)
+
+      [32m+[0m[0m tracing_config {
+          [32m+[0m[0m mode = "Active"
+        }
+    }
+
+[1m  # module.delete_compatibility.aws_lambda_permission.api_gateway_permission[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_permission" "api_gateway_permission" {
+      [32m+[0m[0m action              = "lambda:InvokeFunction"
+      [32m+[0m[0m function_name       = "DeleteCompatibilityFunction"
+      [32m+[0m[0m id                  = (known after apply)
+      [32m+[0m[0m principal           = "apigateway.amazonaws.com"
+      [32m+[0m[0m source_arn          = (known after apply)
+      [32m+[0m[0m statement_id        = "AllowAPIGatewayInvoke"
+      [32m+[0m[0m statement_id_prefix = (known after apply)
+    }
+
+[1m  # module.get_compatibility.aws_api_gateway_integration.lambda_integration[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_integration" "lambda_integration" {
+      [32m+[0m[0m cache_namespace         = (known after apply)
+      [32m+[0m[0m connection_type         = "INTERNET"
+      [32m+[0m[0m http_method             = "GET"
+      [32m+[0m[0m id                      = (known after apply)
+      [32m+[0m[0m integration_http_method = "POST"
+      [32m+[0m[0m passthrough_behavior    = (known after apply)
+      [32m+[0m[0m resource_id             = (known after apply)
+      [32m+[0m[0m rest_api_id             = (known after apply)
+      [32m+[0m[0m timeout_milliseconds    = 29000
+      [32m+[0m[0m type                    = "AWS_PROXY"
+      [32m+[0m[0m uri                     = (known after apply)
+    }
+
+[1m  # module.get_compatibility.aws_cloudwatch_log_group.lambda_log_group[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_log_group" "lambda_log_group" {
+      [32m+[0m[0m arn               = (known after apply)
+      [32m+[0m[0m id                = (known after apply)
+      [32m+[0m[0m log_group_class   = (known after apply)
+      [32m+[0m[0m name              = "/aws/lambda/GetCompatibilityFunction"
+      [32m+[0m[0m name_prefix       = (known after apply)
+      [32m+[0m[0m retention_in_days = 14
+      [32m+[0m[0m skip_destroy      = false
+      [32m+[0m[0m tags_all          = (known after apply)
+    }
+
+[1m  # module.get_compatibility.aws_iam_role.lambda_role[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "lambda_role" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRole"
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "lambda.amazonaws.com"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "GetCompatibilityFunction-role"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = (known after apply)
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.get_compatibility.aws_iam_role_policy.lambda_policy[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy" "lambda_policy" {
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "GetCompatibilityFunction-policy"
+      [32m+[0m[0m name_prefix = (known after apply)
+      [32m+[0m[0m policy      = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "logs:CreateLogGroup",
+                          [32m+[0m[0m "logs:CreateLogStream",
+                          [32m+[0m[0m "logs:PutLogEvents",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "s3:GetObject",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "arn:aws:s3:::compatibility-bucket-test/functions/getCompatibility/function.zip"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "sqs:SendMessage",
+                          [32m+[0m[0m "sqs:ReceiveMessage",
+                          [32m+[0m[0m "sqs:DeleteMessage",
+                          [32m+[0m[0m "sqs:GetQueueAttributes",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "dynamodb:GetItem",
+                          [32m+[0m[0m "dynamodb:Query",
+                          [32m+[0m[0m "dynamodb:Scan",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "arn:aws:dynamodb:us-east-1:*:table/CompatibilityResults-prod"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "xray:PutTraceSegments",
+                          [32m+[0m[0m "xray:PutTelemetryRecords",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m role        = (known after apply)
+    }
+
+[1m  # module.get_compatibility.aws_lambda_function.lambda[0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_function" "lambda" {
+      [32m+[0m[0m architectures                  = (known after apply)
+      [32m+[0m[0m arn                            = (known after apply)
+      [32m+[0m[0m code_sha256                    = (known after apply)
+      [32m+[0m[0m function_name                  = "GetCompatibilityFunction"
+      [32m+[0m[0m handler                        = "index.handler"
+      [32m+[0m[0m id                             = (known after apply)
+      [32m+[0m[0m invoke_arn                     = (known after apply)
+      [32m+[0m[0m last_modified                  = (known after apply)
+      [32m+[0m[0m memory_size                    = 128
+      [32m+[0m[0m package_type                   = "Zip"
+      [32m+[0m[0m publish                        = false
+      [32m+[0m[0m qualified_arn                  = (known after apply)
+      [32m+[0m[0m qualified_invoke_arn           = (known after apply)
+      [32m+[0m[0m reserved_concurrent_executions = -1
+      [32m+[0m[0m role                           = (known after apply)
+      [32m+[0m[0m runtime                        = "nodejs22.x"
+      [32m+[0m[0m s3_bucket                      = "compatibility-bucket-test"
+      [32m+[0m[0m s3_key                         = "functions/getCompatibility/function.zip"
+      [32m+[0m[0m signing_job_arn                = (known after apply)
+      [32m+[0m[0m signing_profile_version_arn    = (known after apply)
+      [32m+[0m[0m skip_destroy                   = false
+      [32m+[0m[0m source_code_hash               = "OjUpxoCVPTbYhD50o7rUw/nm3MZznMnPEfNWIm2XKg0="
+      [32m+[0m[0m source_code_size               = (known after apply)
+      [32m+[0m[0m tags_all                       = (known after apply)
+      [32m+[0m[0m timeout                        = 120
+      [32m+[0m[0m version                        = (known after apply)
+
+      [32m+[0m[0m environment {
+          [32m+[0m[0m variables = {
+              [32m+[0m[0m "ENVIRONMENT" = "GetCompatibilityFunction"
+              [32m+[0m[0m "TABLE_NAME"  = "CompatibilityResults-prod"
+            }
+        }
+
+      [32m+[0m[0m ephemeral_storage (known after apply)
+
+      [32m+[0m[0m logging_config (known after apply)
+
+      [32m+[0m[0m tracing_config {
+          [32m+[0m[0m mode = "Active"
+        }
+    }
+
+[1m  # module.get_compatibility.aws_lambda_permission.api_gateway_permission[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_permission" "api_gateway_permission" {
+      [32m+[0m[0m action              = "lambda:InvokeFunction"
+      [32m+[0m[0m function_name       = "GetCompatibilityFunction"
+      [32m+[0m[0m id                  = (known after apply)
+      [32m+[0m[0m principal           = "apigateway.amazonaws.com"
+      [32m+[0m[0m source_arn          = (known after apply)
+      [32m+[0m[0m statement_id        = "AllowAPIGatewayInvoke"
+      [32m+[0m[0m statement_id_prefix = (known after apply)
+    }
+
+[1m  # module.process_compatibility.aws_cloudwatch_log_group.lambda_log_group[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_log_group" "lambda_log_group" {
+      [32m+[0m[0m arn               = (known after apply)
+      [32m+[0m[0m id                = (known after apply)
+      [32m+[0m[0m log_group_class   = (known after apply)
+      [32m+[0m[0m name              = "/aws/lambda/ProcessCompatibilityFunction"
+      [32m+[0m[0m name_prefix       = (known after apply)
+      [32m+[0m[0m retention_in_days = 14
+      [32m+[0m[0m skip_destroy      = false
+      [32m+[0m[0m tags_all          = (known after apply)
+    }
+
+[1m  # module.process_compatibility.aws_iam_role.lambda_role[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "lambda_role" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRole"
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "lambda.amazonaws.com"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "ProcessCompatibilityFunction-role"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = (known after apply)
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.process_compatibility.aws_iam_role_policy.lambda_policy[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy" "lambda_policy" {
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "ProcessCompatibilityFunction-policy"
+      [32m+[0m[0m name_prefix = (known after apply)
+      [32m+[0m[0m policy      = (known after apply)
+      [32m+[0m[0m role        = (known after apply)
+    }
+
+[1m  # module.process_compatibility.aws_lambda_event_source_mapping.sqs_mapping[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_event_source_mapping" "sqs_mapping" {
+      [32m+[0m[0m arn                           = (known after apply)
+      [32m+[0m[0m batch_size                    = 10
+      [32m+[0m[0m enabled                       = true
+      [32m+[0m[0m event_source_arn              = (known after apply)
+      [32m+[0m[0m function_arn                  = (known after apply)
+      [32m+[0m[0m function_name                 = (known after apply)
+      [32m+[0m[0m id                            = (known after apply)
+      [32m+[0m[0m last_modified                 = (known after apply)
+      [32m+[0m[0m last_processing_result        = (known after apply)
+      [32m+[0m[0m maximum_record_age_in_seconds = (known after apply)
+      [32m+[0m[0m maximum_retry_attempts        = (known after apply)
+      [32m+[0m[0m parallelization_factor        = (known after apply)
+      [32m+[0m[0m state                         = (known after apply)
+      [32m+[0m[0m state_transition_reason       = (known after apply)
+      [32m+[0m[0m tags_all                      = (known after apply)
+      [32m+[0m[0m uuid                          = (known after apply)
+
+      [32m+[0m[0m amazon_managed_kafka_event_source_config (known after apply)
+
+      [32m+[0m[0m self_managed_kafka_event_source_config (known after apply)
+    }
+
+[1m  # module.process_compatibility.aws_lambda_function.lambda[0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_function" "lambda" {
+      [32m+[0m[0m architectures                  = (known after apply)
+      [32m+[0m[0m arn                            = (known after apply)
+      [32m+[0m[0m code_sha256                    = (known after apply)
+      [32m+[0m[0m function_name                  = "ProcessCompatibilityFunction"
+      [32m+[0m[0m handler                        = "index.handler"
+      [32m+[0m[0m id                             = (known after apply)
+      [32m+[0m[0m invoke_arn                     = (known after apply)
+      [32m+[0m[0m last_modified                  = (known after apply)
+      [32m+[0m[0m memory_size                    = 128
+      [32m+[0m[0m package_type                   = "Zip"
+      [32m+[0m[0m publish                        = false
+      [32m+[0m[0m qualified_arn                  = (known after apply)
+      [32m+[0m[0m qualified_invoke_arn           = (known after apply)
+      [32m+[0m[0m reserved_concurrent_executions = -1
+      [32m+[0m[0m role                           = (known after apply)
+      [32m+[0m[0m runtime                        = "nodejs22.x"
+      [32m+[0m[0m s3_bucket                      = "compatibility-bucket-test"
+      [32m+[0m[0m s3_key                         = "functions/processCompatibility/function.zip"
+      [32m+[0m[0m signing_job_arn                = (known after apply)
+      [32m+[0m[0m signing_profile_version_arn    = (known after apply)
+      [32m+[0m[0m skip_destroy                   = false
+      [32m+[0m[0m source_code_hash               = "ywcLvDNm5t0JSlh8kTk+pVTE3AEpjDWrKIj3lOUBdhU="
+      [32m+[0m[0m source_code_size               = (known after apply)
+      [32m+[0m[0m tags_all                       = (known after apply)
+      [32m+[0m[0m timeout                        = 120
+      [32m+[0m[0m version                        = (known after apply)
+
+      [32m+[0m[0m environment {
+          [32m+[0m[0m variables = (known after apply)
+        }
+
+      [32m+[0m[0m ephemeral_storage (known after apply)
+
+      [32m+[0m[0m logging_config (known after apply)
+
+      [32m+[0m[0m tracing_config {
+          [32m+[0m[0m mode = "Active"
+        }
+    }
+
+[1m  # module.shared.aws_api_gateway_deployment.compatibility_api_deployment[0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_deployment" "compatibility_api_deployment" {
+      [32m+[0m[0m created_date  = (known after apply)
+      [32m+[0m[0m execution_arn = (known after apply)
+      [32m+[0m[0m id            = (known after apply)
+      [32m+[0m[0m invoke_url    = (known after apply)
+      [32m+[0m[0m rest_api_id   = (known after apply)
+    }
+
+[1m  # module.shared.aws_api_gateway_method.calculate_compatibility_post[0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_method" "calculate_compatibility_post" {
+      [32m+[0m[0m api_key_required = false
+      [32m+[0m[0m authorization    = "NONE"
+      [32m+[0m[0m http_method      = "POST"
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m resource_id      = (known after apply)
+      [32m+[0m[0m rest_api_id      = (known after apply)
+    }
+
+[1m  # module.shared.aws_api_gateway_method.delete_compatibility_delete[0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_method" "delete_compatibility_delete" {
+      [32m+[0m[0m api_key_required = false
+      [32m+[0m[0m authorization    = "NONE"
+      [32m+[0m[0m http_method      = "DELETE"
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m resource_id      = (known after apply)
+      [32m+[0m[0m rest_api_id      = (known after apply)
+    }
+
+[1m  # module.shared.aws_api_gateway_method.get_compatibility_get[0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_method" "get_compatibility_get" {
+      [32m+[0m[0m api_key_required = false
+      [32m+[0m[0m authorization    = "NONE"
+      [32m+[0m[0m http_method      = "GET"
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m resource_id      = (known after apply)
+      [32m+[0m[0m rest_api_id      = (known after apply)
+    }
+
+[1m  # module.shared.aws_api_gateway_method.update_compatibility_put[0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_method" "update_compatibility_put" {
+      [32m+[0m[0m api_key_required = false
+      [32m+[0m[0m authorization    = "NONE"
+      [32m+[0m[0m http_method      = "PUT"
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m resource_id      = (known after apply)
+      [32m+[0m[0m rest_api_id      = (known after apply)
+    }
+
+[1m  # module.shared.aws_api_gateway_resource.compatibility_id_resource[0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_resource" "compatibility_id_resource" {
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m parent_id   = (known after apply)
+      [32m+[0m[0m path        = (known after apply)
+      [32m+[0m[0m path_part   = "{id}"
+      [32m+[0m[0m rest_api_id = (known after apply)
+    }
+
+[1m  # module.shared.aws_api_gateway_resource.compatibility_resource[0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_resource" "compatibility_resource" {
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m parent_id   = (known after apply)
+      [32m+[0m[0m path        = (known after apply)
+      [32m+[0m[0m path_part   = "compatibility"
+      [32m+[0m[0m rest_api_id = (known after apply)
+    }
+
+[1m  # module.shared.aws_api_gateway_rest_api.compatibility_api[0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_rest_api" "compatibility_api" {
+      [32m+[0m[0m api_key_source               = (known after apply)
+      [32m+[0m[0m arn                          = (known after apply)
+      [32m+[0m[0m binary_media_types           = (known after apply)
+      [32m+[0m[0m created_date                 = (known after apply)
+      [32m+[0m[0m description                  = "Compatibility Calculator API"
+      [32m+[0m[0m disable_execute_api_endpoint = (known after apply)
+      [32m+[0m[0m execution_arn                = (known after apply)
+      [32m+[0m[0m id                           = (known after apply)
+      [32m+[0m[0m minimum_compression_size     = (known after apply)
+      [32m+[0m[0m name                         = "CompatibilityApi-prod"
+      [32m+[0m[0m policy                       = (known after apply)
+      [32m+[0m[0m root_resource_id             = (known after apply)
+      [32m+[0m[0m tags_all                     = (known after apply)
+
+      [32m+[0m[0m endpoint_configuration (known after apply)
+    }
+
+[1m  # module.shared.aws_api_gateway_stage.compatibility_api_stage[0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_stage" "compatibility_api_stage" {
+      [32m+[0m[0m arn           = (known after apply)
+      [32m+[0m[0m deployment_id = (known after apply)
+      [32m+[0m[0m execution_arn = (known after apply)
+      [32m+[0m[0m id            = (known after apply)
+      [32m+[0m[0m invoke_url    = (known after apply)
+      [32m+[0m[0m rest_api_id   = (known after apply)
+      [32m+[0m[0m stage_name    = "prod"
+      [32m+[0m[0m tags_all      = (known after apply)
+      [32m+[0m[0m web_acl_arn   = (known after apply)
+    }
+
+[1m  # module.shared.aws_cloudwatch_metric_alarm.compatibility_error_alarm[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_metric_alarm" "compatibility_error_alarm" {
+      [32m+[0m[0m actions_enabled                       = true
+      [32m+[0m[0m alarm_actions                         = (known after apply)
+      [32m+[0m[0m alarm_description                     = "Alarm for high error rate in compatibility functions"
+      [32m+[0m[0m alarm_name                            = "CompatibilityErrorAlarm-prod"
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m comparison_operator                   = "GreaterThanOrEqualToThreshold"
+      [32m+[0m[0m datapoints_to_alarm                   = 3
+      [32m+[0m[0m evaluate_low_sample_count_percentiles = (known after apply)
+      [32m+[0m[0m evaluation_periods                    = 3
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m tags_all                              = (known after apply)
+      [32m+[0m[0m threshold                             = 5
+      [32m+[0m[0m treat_missing_data                    = "missing"
+
+      [32m+[0m[0m metric_query {
+          [32m+[0m[0m id          = "errors"
+          [32m+[0m[0m return_data = false
+            [90m# (3 unchanged attributes hidden)[0m[0m
+
+          [32m+[0m[0m metric {
+              [32m+[0m[0m metric_name = "CalculateErrors"
+              [32m+[0m[0m namespace   = "CompatibilityMetrics"
+              [32m+[0m[0m period      = 300
+              [32m+[0m[0m stat        = "Sum"
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            }
+        }
+      [32m+[0m[0m metric_query {
+          [32m+[0m[0m id          = "invocations"
+          [32m+[0m[0m return_data = false
+            [90m# (3 unchanged attributes hidden)[0m[0m
+
+          [32m+[0m[0m metric {
+              [32m+[0m[0m metric_name = "Invocations"
+              [32m+[0m[0m namespace   = "AWS/Lambda"
+              [32m+[0m[0m period      = 300
+              [32m+[0m[0m stat        = "Sum"
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            }
+        }
+      [32m+[0m[0m metric_query {
+          [32m+[0m[0m expression  = "100*(errors/invocations)"
+          [32m+[0m[0m id          = "error_rate"
+          [32m+[0m[0m label       = "Error Rate"
+          [32m+[0m[0m return_data = true
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+    }
+
+[1m  # module.shared.aws_dynamodb_table.results_table[0m will be created
+[0m  [32m+[0m[0m resource "aws_dynamodb_table" "results_table" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m billing_mode     = "PAY_PER_REQUEST"
+      [32m+[0m[0m hash_key         = "id"
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m name             = "CompatibilityResults-prod"
+      [32m+[0m[0m read_capacity    = (known after apply)
+      [32m+[0m[0m stream_arn       = (known after apply)
+      [32m+[0m[0m stream_label     = (known after apply)
+      [32m+[0m[0m stream_view_type = (known after apply)
+      [32m+[0m[0m tags_all         = (known after apply)
+      [32m+[0m[0m write_capacity   = (known after apply)
+
+      [32m+[0m[0m attribute {
+          [32m+[0m[0m name = "id"
+          [32m+[0m[0m type = "S"
+        }
+
+      [32m+[0m[0m point_in_time_recovery {
+          [32m+[0m[0m enabled                 = true
+          [32m+[0m[0m recovery_period_in_days = (known after apply)
+        }
+
+      [32m+[0m[0m server_side_encryption (known after apply)
+
+      [32m+[0m[0m ttl (known after apply)
+    }
+
+[1m  # module.shared.aws_sns_topic.compatibility_alarms[0m will be created
+[0m  [32m+[0m[0m resource "aws_sns_topic" "compatibility_alarms" {
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m beginning_archive_time      = (known after apply)
+      [32m+[0m[0m content_based_deduplication = false
+      [32m+[0m[0m fifo_throughput_scope       = (known after apply)
+      [32m+[0m[0m fifo_topic                  = false
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m name                        = "CompatibilityAlarms-prod"
+      [32m+[0m[0m name_prefix                 = (known after apply)
+      [32m+[0m[0m owner                       = (known after apply)
+      [32m+[0m[0m policy                      = (known after apply)
+      [32m+[0m[0m signature_version           = (known after apply)
+      [32m+[0m[0m tags_all                    = (known after apply)
+      [32m+[0m[0m tracing_config              = (known after apply)
+    }
+
+[1m  # module.shared.aws_sns_topic_subscription.compatibility_alarms_subscription[0m will be created
+[0m  [32m+[0m[0m resource "aws_sns_topic_subscription" "compatibility_alarms_subscription" {
+      [32m+[0m[0m arn                             = (known after apply)
+      [32m+[0m[0m confirmation_timeout_in_minutes = 1
+      [32m+[0m[0m confirmation_was_authenticated  = (known after apply)
+      [32m+[0m[0m endpoint                        = "tayoefunshile@gmail.com"
+      [32m+[0m[0m endpoint_auto_confirms          = false
+      [32m+[0m[0m filter_policy_scope             = (known after apply)
+      [32m+[0m[0m id                              = (known after apply)
+      [32m+[0m[0m owner_id                        = (known after apply)
+      [32m+[0m[0m pending_confirmation            = (known after apply)
+      [32m+[0m[0m protocol                        = "email"
+      [32m+[0m[0m raw_message_delivery            = false
+      [32m+[0m[0m topic_arn                       = (known after apply)
+    }
+
+[1m  # module.shared.aws_sqs_queue.compatibility_dlq[0m will be created
+[0m  [32m+[0m[0m resource "aws_sqs_queue" "compatibility_dlq" {
+      [32m+[0m[0m arn                               = (known after apply)
+      [32m+[0m[0m content_based_deduplication       = false
+      [32m+[0m[0m deduplication_scope               = (known after apply)
+      [32m+[0m[0m delay_seconds                     = 0
+      [32m+[0m[0m fifo_queue                        = false
+      [32m+[0m[0m fifo_throughput_limit             = (known after apply)
+      [32m+[0m[0m id                                = (known after apply)
+      [32m+[0m[0m kms_data_key_reuse_period_seconds = 0
+      [32m+[0m[0m max_message_size                  = 262144
+      [32m+[0m[0m message_retention_seconds         = 345600
+      [32m+[0m[0m name                              = "CompatibilityDLQ-prod"
+      [32m+[0m[0m name_prefix                       = (known after apply)
+      [32m+[0m[0m policy                            = (known after apply)
+      [32m+[0m[0m receive_wait_time_seconds         = 0
+      [32m+[0m[0m redrive_allow_policy              = (known after apply)
+      [32m+[0m[0m redrive_policy                    = (known after apply)
+      [32m+[0m[0m sqs_managed_sse_enabled           = true
+      [32m+[0m[0m tags_all                          = (known after apply)
+      [32m+[0m[0m url                               = (known after apply)
+      [32m+[0m[0m visibility_timeout_seconds        = 30
+    }
+
+[1m  # module.shared.aws_sqs_queue.compatibility_queue[0m will be created
+[0m  [32m+[0m[0m resource "aws_sqs_queue" "compatibility_queue" {
+      [32m+[0m[0m arn                               = (known after apply)
+      [32m+[0m[0m content_based_deduplication       = false
+      [32m+[0m[0m deduplication_scope               = (known after apply)
+      [32m+[0m[0m delay_seconds                     = 0
+      [32m+[0m[0m fifo_queue                        = false
+      [32m+[0m[0m fifo_throughput_limit             = (known after apply)
+      [32m+[0m[0m id                                = (known after apply)
+      [32m+[0m[0m kms_data_key_reuse_period_seconds = 0
+      [32m+[0m[0m max_message_size                  = 262144
+      [32m+[0m[0m message_retention_seconds         = 345600
+      [32m+[0m[0m name                              = "CompatibilityQueue-prod"
+      [32m+[0m[0m name_prefix                       = (known after apply)
+      [32m+[0m[0m policy                            = (known after apply)
+      [32m+[0m[0m receive_wait_time_seconds         = 0
+      [32m+[0m[0m redrive_allow_policy              = (known after apply)
+      [32m+[0m[0m redrive_policy                    = (known after apply)
+      [32m+[0m[0m sqs_managed_sse_enabled           = true
+      [32m+[0m[0m tags_all                          = (known after apply)
+      [32m+[0m[0m url                               = (known after apply)
+      [32m+[0m[0m visibility_timeout_seconds        = 300
+    }
+
+[1m  # module.update_compatibility.aws_api_gateway_integration.lambda_integration[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_api_gateway_integration" "lambda_integration" {
+      [32m+[0m[0m cache_namespace         = (known after apply)
+      [32m+[0m[0m connection_type         = "INTERNET"
+      [32m+[0m[0m http_method             = "PUT"
+      [32m+[0m[0m id                      = (known after apply)
+      [32m+[0m[0m integration_http_method = "POST"
+      [32m+[0m[0m passthrough_behavior    = (known after apply)
+      [32m+[0m[0m resource_id             = (known after apply)
+      [32m+[0m[0m rest_api_id             = (known after apply)
+      [32m+[0m[0m timeout_milliseconds    = 29000
+      [32m+[0m[0m type                    = "AWS_PROXY"
+      [32m+[0m[0m uri                     = (known after apply)
+    }
+
+[1m  # module.update_compatibility.aws_cloudwatch_log_group.lambda_log_group[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_log_group" "lambda_log_group" {
+      [32m+[0m[0m arn               = (known after apply)
+      [32m+[0m[0m id                = (known after apply)
+      [32m+[0m[0m log_group_class   = (known after apply)
+      [32m+[0m[0m name              = "/aws/lambda/UpdateCompatibilityFunction"
+      [32m+[0m[0m name_prefix       = (known after apply)
+      [32m+[0m[0m retention_in_days = 14
+      [32m+[0m[0m skip_destroy      = false
+      [32m+[0m[0m tags_all          = (known after apply)
+    }
+
+[1m  # module.update_compatibility.aws_iam_role.lambda_role[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "lambda_role" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRole"
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "lambda.amazonaws.com"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "UpdateCompatibilityFunction-role"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags_all              = (known after apply)
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.update_compatibility.aws_iam_role_policy.lambda_policy[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy" "lambda_policy" {
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "UpdateCompatibilityFunction-policy"
+      [32m+[0m[0m name_prefix = (known after apply)
+      [32m+[0m[0m policy      = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "logs:CreateLogGroup",
+                          [32m+[0m[0m "logs:CreateLogStream",
+                          [32m+[0m[0m "logs:PutLogEvents",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "s3:GetObject",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "arn:aws:s3:::compatibility-bucket-test/functions/updateCompatibility/function.zip"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "sqs:SendMessage",
+                          [32m+[0m[0m "sqs:ReceiveMessage",
+                          [32m+[0m[0m "sqs:DeleteMessage",
+                          [32m+[0m[0m "sqs:GetQueueAttributes",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "dynamodb:GetItem",
+                          [32m+[0m[0m "dynamodb:PutItem",
+                          [32m+[0m[0m "dynamodb:UpdateItem",
+                          [32m+[0m[0m "dynamodb:DeleteItem",
+                          [32m+[0m[0m "dynamodb:Query",
+                          [32m+[0m[0m "dynamodb:Scan",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "arn:aws:dynamodb:us-east-1:*:table/CompatibilityResults-prod"
+                    },
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action   = [
+                          [32m+[0m[0m "xray:PutTraceSegments",
+                          [32m+[0m[0m "xray:PutTelemetryRecords",
+                        ]
+                      [32m+[0m[0m Effect   = "Allow"
+                      [32m+[0m[0m Resource = "*"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m role        = (known after apply)
+    }
+
+[1m  # module.update_compatibility.aws_lambda_function.lambda[0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_function" "lambda" {
+      [32m+[0m[0m architectures                  = (known after apply)
+      [32m+[0m[0m arn                            = (known after apply)
+      [32m+[0m[0m code_sha256                    = (known after apply)
+      [32m+[0m[0m function_name                  = "UpdateCompatibilityFunction"
+      [32m+[0m[0m handler                        = "index.handler"
+      [32m+[0m[0m id                             = (known after apply)
+      [32m+[0m[0m invoke_arn                     = (known after apply)
+      [32m+[0m[0m last_modified                  = (known after apply)
+      [32m+[0m[0m memory_size                    = 128
+      [32m+[0m[0m package_type                   = "Zip"
+      [32m+[0m[0m publish                        = false
+      [32m+[0m[0m qualified_arn                  = (known after apply)
+      [32m+[0m[0m qualified_invoke_arn           = (known after apply)
+      [32m+[0m[0m reserved_concurrent_executions = -1
+      [32m+[0m[0m role                           = (known after apply)
+      [32m+[0m[0m runtime                        = "nodejs22.x"
+      [32m+[0m[0m s3_bucket                      = "compatibility-bucket-test"
+      [32m+[0m[0m s3_key                         = "functions/updateCompatibility/function.zip"
+      [32m+[0m[0m signing_job_arn                = (known after apply)
+      [32m+[0m[0m signing_profile_version_arn    = (known after apply)
+      [32m+[0m[0m skip_destroy                   = false
+      [32m+[0m[0m source_code_hash               = "HqU4OBqAuQpUQvkRmhVy75hsSpM25Yy7hIfDVlWNi8U="
+      [32m+[0m[0m source_code_size               = (known after apply)
+      [32m+[0m[0m tags_all                       = (known after apply)
+      [32m+[0m[0m timeout                        = 120
+      [32m+[0m[0m version                        = (known after apply)
+
+      [32m+[0m[0m environment {
+          [32m+[0m[0m variables = {
+              [32m+[0m[0m "ENVIRONMENT" = "UpdateCompatibilityFunction"
+              [32m+[0m[0m "TABLE_NAME"  = "CompatibilityResults-prod"
+            }
+        }
+
+      [32m+[0m[0m ephemeral_storage (known after apply)
+
+      [32m+[0m[0m logging_config (known after apply)
+
+      [32m+[0m[0m tracing_config {
+          [32m+[0m[0m mode = "Active"
+        }
+    }
+
+[1m  # module.update_compatibility.aws_lambda_permission.api_gateway_permission[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_lambda_permission" "api_gateway_permission" {
+      [32m+[0m[0m action              = "lambda:InvokeFunction"
+      [32m+[0m[0m function_name       = "UpdateCompatibilityFunction"
+      [32m+[0m[0m id                  = (known after apply)
+      [32m+[0m[0m principal           = "apigateway.amazonaws.com"
+      [32m+[0m[0m source_arn          = (known after apply)
+      [32m+[0m[0m statement_id        = "AllowAPIGatewayInvoke"
+      [32m+[0m[0m statement_id_prefix = (known after apply)
+    }
+
+[1mPlan:[0m 45 to add, 0 to change, 0 to destroy.
+[0m[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.

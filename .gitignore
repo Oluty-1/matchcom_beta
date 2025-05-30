@@ -1,0 +1,8 @@
+functions/*/.aws-sam
+.env
+node_modules/
+package-lock.json
+package.json
+
+.terraform/
+.terraform.lock.hcl

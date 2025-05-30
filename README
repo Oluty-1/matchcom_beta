@@ -1,0 +1,17 @@
+# Run this script to package and upload the lambda functions to S3
+
+chmod +x terraform/scripts/package_lambda.sh
+./terraform/scripts/package_lambda.sh functions/calculateCompatibility
+./terraform/scripts/package_lambda.sh functions/processCompatibility
+./terraform/scripts/package_lambda.sh functions/getCompatibility
+./terraform/scripts/package_lambda.sh functions/updateCompatibility
+./terraform/scripts/package_lambda.sh functions/deleteCompatibility
+
+# Initialize Terraform
+terraform init
+
+# Plan the changes
+terraform plan
+
+# Apply the changes
+terraform apply
