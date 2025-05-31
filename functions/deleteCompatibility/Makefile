@@ -48,4 +48,4 @@ logs:
 	sam logs --stack-name ${STACK_NAME} -t --name ${FUNCTION}
 
 
-	
+##
