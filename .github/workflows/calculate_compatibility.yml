@@ -14,9 +14,9 @@ jobs:
       function_name: calculateCompatibility
     secrets: inherit
 
-  # deploy:
-  #   needs: build
-  #   uses: ./.github/workflows/deploy-targeted.yml
-  #   with:
-  #     module_name: calculate_compatibility
-  #   secrets: inherit
+  deploy:
+    needs: build
+    uses: ./.github/workflows/deploy-targeted.yml
+    with:
+      module_name: calculate_compatibility
+    secrets: inherit
