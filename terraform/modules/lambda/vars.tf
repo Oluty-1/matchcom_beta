@@ -102,3 +102,9 @@ variable "enable_api_gateway" {
   type        = bool
   default     = false
 }
+
+variable "notification_emails" {
+  description = "List of emails for SNS notifications"
+  type        = list(string)
+  default     = []
+}

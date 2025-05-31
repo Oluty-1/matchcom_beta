@@ -1,0 +1,37 @@
+name: General Build and Test
+
+on:
+  workflow_call:
+    inputs:
+      function_name:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: |
+          cd functions/${{ inputs.function_name }}
+          npm install
+      - name: Package ZIP with Hash
+        run: |
+          cd functions/${{ inputs.function_name }}
+          zip -r function.zip .
+          source_code_hash=$(openssl dgst -sha256 -binary function.zip | base64)
+          echo "SOURCE_CODE_HASH=$source_code_hash" >> $GITHUB_ENV
+      - name: Upload ZIP to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp functions/${{ inputs.function_name }}/function.zip s3://compatibility-bucket-test/functions/${{ inputs.function_name }}/function.zip --metadata "source_code_hash=${{ env.SOURCE_CODE_HASH }}" --region us-east-1
+      - name: Clean up
+        run: |
+          rm functions/${{ inputs.function_name }}/function.zip

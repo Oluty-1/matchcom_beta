@@ -4,6 +4,7 @@ const dynamoDBClient = new DynamoDBClient({ region: process.env.AWS_REGION });
 const TABLE_NAME = process.env.TABLE_NAME;
 
 exports.handler = async (event) => {
+  const start = Date.now(); // Start time for latency measurement
   try {
     for (const record of event.Records) {
       const message = JSON.parse(record.body);
@@ -22,12 +23,27 @@ exports.handler = async (event) => {
       }));
     }
 
+    const latency = Date.now() - start; // Calculate latency
+    console.log(JSON.stringify({
+      level: "Info",
+      operation: "SQS",
+      status: 200,
+      latency: latency
+    }));
+
     return {
       statusCode: 200,
       body: JSON.stringify({ message: 'Processed successfully' })
     };
   } catch (error) {
-    console.error('Error:', error);
+    const latency = Date.now() - start; // Calculate latency even on error
+    console.log(JSON.stringify({
+      level: "Error",
+      operation: "SQS",
+      status: 500,
+      latency: latency,
+      error: error.message
+    }));
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Internal server error' })
