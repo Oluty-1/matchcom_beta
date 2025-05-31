@@ -15,9 +15,11 @@ jobs:
       cancel-in-progress: true
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Chechout source code
+        uses: actions/checkout@v4
+
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
 
       - name: Terraform Init
         run: |
