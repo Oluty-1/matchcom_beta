@@ -2,6 +2,8 @@ name: Delete Compatibility Pipeline
 
 on:
   push:
+    branches:
+      - master
     paths:
       - 'functions/deleteCompatibility/**'
 

@@ -2,6 +2,8 @@ name: Process Compatibility Pipeline
 
 on:
   push:
+    branches:
+      - master
     paths:
       - 'functions/processCompatibility/**'
 
