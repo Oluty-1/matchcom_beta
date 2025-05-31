@@ -3,44 +3,47 @@ resource "aws_sns_topic" "alerts" {
   name = "CompatibilityAlerts-${var.environment}"
 }
 
-resource "aws_sns_topic_subscription" "alerts_email" {
-  count     = length(var.notification_emails)
+resource "aws_sns_topic_subscription" "email" {
+  count     = length(var.analytics_emails)
   topic_arn = aws_sns_topic.alerts.arn
   protocol  = "email"
-  endpoint  = var.notification_emails[count.index]
+  endpoint  = var.analytics_emails[count.index]
 }
 
-# X-Ray Permissions
+# X-Ray IAM Permission
 resource "aws_iam_role_policy_attachment" "xray" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
 }
 
-# Update Lambda Function for X-Ray
-resource "aws_lambda_function" "lambda" {
-  # Existing configuration...
-  tracing_config {
-    mode = "Active"
-  }
-  environment {
-    variables = merge(var.environment_variables, {
-      # Add any new variables if needed
-    })
-  }
+# CloudWatch Metrics IAM Permission
+resource "aws_iam_role_policy" "cloudwatch_metrics" {
+  name   = "${var.function_name}-CloudWatchMetrics-${var.environment}"
+  role   = aws_iam_role.lambda_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "cloudwatch:PutMetricData"
+        Resource = "*"
+      }
+    ]
+  })
 }
 
 # Metric Filter for Lambda Logs
 resource "aws_cloudwatch_log_metric_filter" "latency" {
   name           = "${var.function_name}-LatencyFilter-${var.environment}"
   log_group_name = aws_cloudwatch_log_group.logs.name
-  filter_pattern = "[level=Info, operation, status, latency]"
+  pattern        = "{ $.level = \"Info\" || $.level = \"Error\" }" # Match structured logs
   metric_transformation {
-    name          = "Latency"
-    namespace     = "Compatibility-Monitoring"
-    value         = "$latency"
+    name      = "Latency"
+    namespace = "Compatibility-Monitoring"
+    value     = "$.latency"
     dimensions = {
-      Operation = "$operation"
-      Status    = "$status"
+      Operation = "$.operation"
+      Status    = "$.status"
     }
   }
 }
@@ -48,10 +51,10 @@ resource "aws_cloudwatch_log_metric_filter" "latency" {
 # Alarms for Error Rates
 locals {
   operations = {
-    "CalculateCompatibilityFunction" = "POST",
-    "ProcessCompatibilityFunction"   = "SQS",
-    "GetCompatibilityFunction"      = "GET",
-    "UpdateCompatibilityFunction"   = "PUT",
+    "CalculateCompatibilityFunction" = "POST"
+    "ProcessCompatibilityFunction"   = "SQS"
+    "GetCompatibilityFunction"      = "GET"
+    "UpdateCompatibilityFunction"   = "PUT"
     "DeleteCompatibilityFunction"   = "DELETE"
   }
 }

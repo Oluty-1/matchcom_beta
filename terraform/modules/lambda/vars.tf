@@ -9,12 +9,12 @@ variable "environment" {
 }
 
 variable "region" {
-  description = "AWS region for general resources (e.g., DynamoDB, S3)"
+  description = "AWS region"
   type        = string
 }
 
 variable "region_api_id" {
-  description = "AWS region for API Gateway ARN"
+  description = "Region for API Gateway ARN"
   type        = string
 }
 
@@ -24,7 +24,7 @@ variable "account_id" {
 }
 
 variable "s3_bucket" {
-  description = "S3 bucket for Lambda ZIP"
+  description = "S3 bucket for Lambda code"
   type        = string
 }
 
@@ -62,13 +62,13 @@ variable "dynamodb_table_name" {
 }
 
 variable "dynamodb_read_only" {
-  description = "Whether Lambda has read-only DynamoDB access"
+  description = "Whether DynamoDB access is read-only"
   type        = bool
   default     = false
 }
 
 variable "api_gateway_id" {
-  description = "API Gateway REST API ID"
+  description = "API Gateway ID"
   type        = string
   default     = ""
 }
@@ -92,7 +92,7 @@ variable "api_resource_path" {
 }
 
 variable "enable_sqs" {
-  description = "Enable SQS event source mapping"
+  description = "Enable SQS integration"
   type        = bool
   default     = false
 }
@@ -103,7 +103,7 @@ variable "enable_api_gateway" {
   default     = false
 }
 
-variable "notification_emails" {
+variable "analytics_emails" {
   description = "List of emails for SNS notifications"
   type        = list(string)
   default     = []

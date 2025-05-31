@@ -3,6 +3,11 @@ data "aws_s3_object" "lambda_zip" {
   key    = var.s3_key
 }
 
+resource "aws_cloudwatch_log_group" "logs" {
+  name              = "/aws/lambda/${var.function_name}"
+  retention_in_days = 7
+}
+
 resource "aws_lambda_function" "lambda" {
   function_name    = var.function_name
   role             = aws_iam_role.lambda_role.arn
@@ -22,7 +27,7 @@ resource "aws_lambda_function" "lambda" {
     )
   }
   tracing_config {
-    mode = "Active"
+    mode = "Active" # Enable X-Ray tracing
   }
 }
 
@@ -43,13 +48,13 @@ resource "aws_api_gateway_integration" "lambda_integration" {
   uri                     = aws_lambda_function.lambda.invoke_arn
 }
 
-resource "aws_lambda_permission" "api_gateway_permission" {
+resource "aws_lambda_permission" "api_gateway" {
   count         = var.enable_api_gateway ? 1 : 0
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "arn:aws:execute-api:${var.region_api_id}:${var.account_id}:${var.api_gateway_id}/*/${var.api_gateway_http_method}${var.api_resource_path}"
+  source_arn    = "arn:aws:execute-api:${var.region}:${var.account_id}:${var.api_gateway_id}/*/${var.api_gateway_http_method}${var.api_resource_path}"
 }
 
 output "integration_id" {

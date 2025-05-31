@@ -21,7 +21,7 @@ module "calculate_compatibility" {
   s3_bucket               = "compatibility-bucket-test"
   s3_key                  = "functions/calculateCompatibility/function.zip"
   runtime                 = "nodejs22.x"
-  timeout                 = 15
+  timeout                 = 16
   sqs_queue_url           = module.shared.queue_url
   sqs_queue_arn           = module.shared.queue_arn
   api_gateway_id          = module.shared.api_gateway_id
@@ -30,7 +30,7 @@ module "calculate_compatibility" {
   api_resource_path       = "/compatibility"
   enable_sqs              = false
   enable_api_gateway      = true
-  notification_emails     = ["tayoefunshile@gmail.com"]
+  analytics_emails        = ["tayoefunshile@gmail.com"]
 }
 
 module "process_compatibility" {
@@ -53,7 +53,7 @@ module "process_compatibility" {
   api_resource_path       = ""
   enable_sqs              = true
   enable_api_gateway      = false
-  notification_emails     = ["tayoefunshile@gmail.com"]
+  analytics_emails        = ["tayoefunshile@gmail.com"]
 }
 
 module "get_compatibility" {
@@ -75,7 +75,7 @@ module "get_compatibility" {
   api_resource_path       = "/compatibility/{id}"
   enable_sqs              = false
   enable_api_gateway      = true
-  notification_emails     = ["tayoefunshile@gmail.com"]
+  analytics_emails        = ["tayoefunshile@gmail.com"]
 }
 
 module "update_compatibility" {
@@ -96,7 +96,7 @@ module "update_compatibility" {
   api_resource_path       = "/compatibility/{id}"
   enable_sqs              = false
   enable_api_gateway      = true
-  notification_emails     = ["tayoefunshile@gmail.com"]
+  analytics_emails        = ["tayoefunshile@gmail.com"]
 }
 
 module "delete_compatibility" {
@@ -117,5 +117,5 @@ module "delete_compatibility" {
   api_resource_path       = "/compatibility/{id}"
   enable_sqs              = false
   enable_api_gateway      = true
-  notification_emails     = ["tayoefunshile@gmail.com"]
+  analytics_emails        = ["tayoefunshile@gmail.com"]
 }

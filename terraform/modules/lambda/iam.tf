@@ -27,11 +27,11 @@ resource "aws_iam_role_policy" "lambda_policy" {
           "logs:CreateLogStream",
           "logs:PutLogEvents"
         ]
-        Resource = "*"
+        Resource = "arn:aws:logs:${var.region}:${var.account_id}:log-group:/aws/lambda/${var.function_name}:*"
       },
       {
-        Effect = "Allow"
-        Action = ["s3:GetObject"]
+        Effect   = "Allow"
+        Action   = ["s3:GetObject"]
         Resource = "arn:aws:s3:::${var.s3_bucket}/${var.s3_key}"
       },
       {
@@ -61,8 +61,8 @@ resource "aws_iam_role_policy" "lambda_policy" {
         Resource = var.dynamodb_table_name != "" ? "arn:aws:dynamodb:${var.region}:*:table/${var.dynamodb_table_name}" : "*"
       },
       {
-        Effect = "Allow"
-        Action = ["xray:PutTraceSegments", "xray:PutTelemetryRecords"]
+        Effect   = "Allow"
+        Action   = ["xray:PutTraceSegments", "xray:PutTelemetryRecords"]
         Resource = "*"
       }
     ]
