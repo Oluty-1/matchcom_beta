@@ -1,0 +1,20 @@
+name: Get Compatibility Pipeline
+
+on:
+  push:
+    paths:
+      - 'functions/getCompatibility/**'
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-test.yml
+    with:
+      function_name: getCompatibility
+    secrets: inherit
+
+  deploy:
+    needs: build
+    uses: ./.github/workflows/deploy-targeted.yml
+    with:
+      module_name: get_compatibility
+    secrets: inherit

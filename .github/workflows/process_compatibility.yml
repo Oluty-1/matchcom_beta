@@ -1,0 +1,20 @@
+name: Process Compatibility Pipeline
+
+on:
+  push:
+    paths:
+      - 'functions/processCompatibility/**'
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-test.yml
+    with:
+      function_name: processCompatibility
+    secrets: inherit
+
+  deploy:
+    needs: build
+    uses: ./.github/workflows/deploy-targeted.yml
+    with:
+      module_name: process_compatibility
+    secrets: inherit

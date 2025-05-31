@@ -1,0 +1,20 @@
+name: Update Compatibility Pipeline
+
+on:
+  push:
+    paths:
+      - 'functions/updateCompatibility/**'
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-test.yml
+    with:
+      function_name: updateCompatibility
+    secrets: inherit
+
+  deploy:
+    needs: build
+    uses: ./.github/workflows/deploy-targeted.yml
+    with:
+      module_name: update_compatibility
+    secrets: inherit
