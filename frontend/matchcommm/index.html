@@ -4,24 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Chances With Her</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/output.css">
+  <link rel="icon" href="/favicon.ico">
 </head>
 <body class="bg-gradient-to-r from-pink-100 to-purple-100 flex flex-col min-h-screen">
-  <!-- Navbar with Toggle Button -->
-  <nav class="bg-pink-600 text-white p-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold">Your Chances With Her</h1>
-    <button id="menu-toggle" class="text-2xl focus:outline-none">☰</button>
-  </nav>
-
-  <!-- Sidebar for Past Records -->
-  <div id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-50">
-    <div class="p-4">
-      <h2 class="text-xl font-bold text-pink-600 mb-4">Past Records</h2>
-      <button id="close-sidebar" class="text-gray-600 mb-4">✕ Close</button>
-      <div id="records-container" class="space-y-2"></div>
-    </div>
-  </div>
+  <!-- Header -->
+  <header class="bg-pink-600 text-white p-4">
+    <h1 class="text-2xl font-bold text-center">Your Chances With Her</h1>
+  </header>
 
   <!-- Main Content -->
   <main class="flex-grow flex items-center justify-center p-4">
@@ -34,6 +24,7 @@
         <input type="number" id="age2" placeholder="Her Age" min="1" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400">
         <button onclick="calculateCompatibility()" class="w-full p-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition">Calculate Love Score</button>
       </div>
+      <button onclick="viewLatestRecord()" class="mt-4 w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">View Latest Record</button>
     </div>
   </main>
 

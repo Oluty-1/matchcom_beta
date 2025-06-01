@@ -31,8 +31,8 @@ async function sendToBackend(name1, age1, name2, age2, score) {
 
     const data = await response.json();
     if (response.ok) {
+      currentRecordId = data.id; // Store ID for viewing
       showResult(`Compatibility Score: ${data.score}%`);
-      fetchRecords();
     } else {
       showResult(`Error: ${data.error}`);
     }
@@ -42,45 +42,13 @@ async function sendToBackend(name1, age1, name2, age2, score) {
   }
 }
 
-async function fetchRecords() {
-  try {
-    const response = await fetch(`${API_URL}/compatibility`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    });
-    const records = await response.json();
-    displayRecords(records);
-  } catch (error) {
-    console.error('Error fetching records:', error);
-    displayRecords([]); // Fallback to empty array
-  }
-}
-
-function displayRecords(records) {
-  const container = document.getElementById('records-container');
-  container.innerHTML = '';
-  if (!Array.isArray(records) || records.length === 0) {
-    container.innerHTML = '<p class="text-gray-500">No records found.</p>';
+async function viewLatestRecord() {
+  if (!currentRecordId) {
+    alert('No record available. Calculate a score first.');
     return;
   }
-  records.forEach(record => {
-    const recordDiv = document.createElement('div');
-    recordDiv.classList.add('p-4', 'border', 'rounded-lg', 'mb-2', 'bg-gray-50');
-    recordDiv.innerHTML = `
-      <p class="font-medium">${record.user1} & ${record.user2}: ${record.score}%</p>
-      <div class="mt-2 space-x-2">
-        <button onclick="viewRecord('${record.id}')" class="text-blue-500 hover:underline">View</button>
-        <button onclick="editRecord('${record.id}')" class="text-green-500 hover:underline">Edit</button>
-        <button onclick="deleteRecord('${record.id}')" class="text-red-500 hover:underline">Delete</button>
-      </div>
-    `;
-    container.appendChild(recordDiv);
-  });
-}
-
-async function viewRecord(id) {
   try {
-    const response = await fetch(`${API_URL}/compatibility/${id}`, {
+    const response = await fetch(`${API_URL}/compatibility/${currentRecordId}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     });
@@ -110,23 +78,21 @@ function closeDetails() {
   document.getElementById('details-modal').classList.add('hidden');
 }
 
-function editRecord(id) {
-  viewRecord(id).then(() => {
-    const name1 = document.getElementById('detail-name1').innerText.split(': ')[1];
-    const age1 = document.getElementById('detail-age1').innerText.split(': ')[1];
-    const name2 = document.getElementById('detail-name2').innerText.split(': ')[1];
-    const age2 = document.getElementById('detail-age2').innerText.split(': ')[1];
-    const score = document.getElementById('detail-score').innerText.split(': ')[1].replace('%', '');
+function editRecord() {
+  const name1 = document.getElementById('detail-name1').innerText.split(': ')[1];
+  const age1 = document.getElementById('detail-age1').innerText.split(': ')[1];
+  const name2 = document.getElementById('detail-name2').innerText.split(': ')[1];
+  const age2 = document.getElementById('detail-age2').innerText.split(': ')[1];
+  const score = document.getElementById('detail-score').innerText.split(': ')[1].replace('%', '');
 
-    document.getElementById('edit-name1').value = name1;
-    document.getElementById('edit-age1').value = age1;
-    document.getElementById('edit-name2').value = name2;
-    document.getElementById('edit-age2').value = age2;
-    document.getElementById('edit-score').value = score;
+  document.getElementById('edit-name1').value = name1;
+  document.getElementById('edit-age1').value = age1;
+  document.getElementById('edit-name2').value = name2;
+  document.getElementById('edit-age2').value = age2;
+  document.getElementById('edit-score').value = score;
 
-    document.getElementById('edit-modal').classList.remove('hidden');
-    closeDetails();
-  });
+  document.getElementById('edit-modal').classList.remove('hidden');
+  closeDetails();
 }
 
 function closeEdit() {
@@ -136,14 +102,12 @@ function closeEdit() {
 async function saveChanges() {
   const updatedData = {
     user1: document.getElementById('edit-name1').value.trim(),
-    age1: parseInt(document.getElementById('edit-age1').value),
     user2: document.getElementById('edit-name2').value.trim(),
-    age2: parseInt(document.getElementById('edit-age2').value),
     score: parseFloat(document.getElementById('edit-score').value)
   };
 
-  if (!updatedData.user1 || !updatedData.user2 || isNaN(updatedData.age1) || isNaN(updatedData.age2) || isNaN(updatedData.score) || updatedData.age1 <= 0 || updatedData.age2 <= 0 || updatedData.score < 0 || updatedData.score > 100) {
-    alert('Please enter valid names, ages, and score (0-100).');
+  if (!updatedData.user1 || !updatedData.user2 || isNaN(updatedData.score) || updatedData.score < 0 || updatedData.score > 100) {
+    alert('Please enter valid names and score (0-100).');
     return;
   }
 
@@ -155,8 +119,8 @@ async function saveChanges() {
     });
     if (response.ok) {
       closeEdit();
-      fetchRecords();
       alert('Record updated successfully.');
+      viewLatestRecord(); // Refresh details
     } else {
       const errorData = await response.json();
       alert(`Error: ${errorData.error}`);
@@ -167,21 +131,21 @@ async function saveChanges() {
   }
 }
 
-function deleteRecord(id) {
+function deleteRecord() {
   if (confirm('Are you sure you want to delete this record?')) {
-    deleteRecordRequest(id);
+    deleteRecordRequest();
   }
 }
 
-async function deleteRecordRequest(id) {
+async function deleteRecordRequest() {
   try {
-    const response = await fetch(`${API_URL}/compatibility/${id}`, {
+    const response = await fetch(`${API_URL}/compatibility/${currentRecordId}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }
     });
     if (response.ok) {
       closeDetails();
-      fetchRecords();
+      currentRecordId = null; // Clear ID
       alert('Record deleted successfully.');
     } else {
       const errorData = await response.json();
@@ -204,19 +168,3 @@ function closeOverlay() {
   const overlay = document.getElementById('result-overlay');
   overlay.classList.add('hidden');
 }
-
-// Sidebar Toggle
-document.getElementById('menu-toggle').addEventListener('click', () => {
-  const sidebar = document.getElementById('sidebar');
-  sidebar.classList.toggle('-translate-x-full');
-  fetchRecords(); // Refresh records when opening
-});
-
-document.getElementById('close-sidebar').addEventListener('click', () => {
-  const sidebar = document.getElementById('sidebar');
-  sidebar.classList.add('-translate-x-full');
-});
-
-window.onload = function() {
-  fetchRecords();
-};
