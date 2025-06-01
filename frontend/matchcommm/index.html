@@ -1,77 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="viewport" content="width=device-width, initial-scale=1.0>
-    <meta charset="UTF-8">
-    <title>Your Chances With Her</title>
-    <link href="/output.css" rel="stylesheet">
-    <link href="/favicon.ico" rel="icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Chances With Her</title>
+  <link rel="stylesheet" href="/output.css">
+  <link rel="icon" href="/favicon.ico">
 </head>
-<body class="bg-gradient-to-r from-pink-100 to-blue-200 flex flex-col min-h-screen">
-    <!-- Header -->
-    <header class="bg-pink-600 p-4 text-white">
-        <h1 class="text-2xl font-bold text-center text-white">
-            Your Chances With Her
-        </h1>
-    </header>
+<body class="bg-gradient-to-r from-pink-100 to-purple-100 flex flex-col min-h-screen">
+  <!-- Header -->
+  <header class="bg-pink-600 text-white p-4">
+    <h1 class="text-2xl font-bold text-center">Your Chances With Her</h1>
+  </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-            <h2 class="text-3xl font-bold text-center text-pink-600 mb-6">Calculate Your Love Score</h2>
-            <div class="space-y-4">
-                <input type="text" id="name1" placeholder="Your Name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400">
-                <input type="number" id="age1" placeholder="Your Age" min="1" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400">
-                <input type="text" id="name2" placeholder="Her Name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400">
-                <input type="number" id="age2" placeholder="Her Age" min="1" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400">
-                <button onclick="calculateCompatibility()" class="w-full p-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition">Calculate Love Score</button>
-            </div>
-            <button onclick="viewLatestRecord()" class="mt-4 w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">View Latest Record</button>
-        </div>
-    </main>
-
-    <!-- Result Overlay -->
-    <div id="result-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div id="result-bubble" class="bg-pink-400 bg-opacity-95 p-8 rounded-lg shadow-2xl text-center max-w-sm animate-bounceIn">
-            <h2 class="text-2xl font-semibold text-white mb-4">Your Compatibility is...</h2>
-            <p id="result-text" class="text-xl text-white font-bold"></p>
-            <button onclick="closeOverlay()" class="mt-6 px-4 py-2 bg-white text-pink-600 rounded-lg hover:bg-gray-100">Close</button>
-        </div>
+  <!-- Main Content -->
+  <main class="flex-grow flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+      <h2 class="text-3xl font-bold text-center text-pink-600 mb-6">Calculate Your Love Score</h2>
+      <div class="space-y-4">
+        <input type="text" id="name1" placeholder="Your Name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400">
+        <input type="number" id="age1" placeholder="Your Age" min="1" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400">
+        <input type="text" id="name2" placeholder="Her Name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400">
+        <input type="number" id="age2" placeholder="Her Age" min="1" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400">
+        <button onclick="calculateCompatibility()" class="w-full p-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition">Calculate Love Score</button>
+      </div>
+      <button onclick="viewLatestRecord()" class="mt-4 w-full p-3 bg-blue-500 text-gray-900 rounded-lg hover:bg-blue-600 transition">View Latest Record</button>
     </div>
+  </main>
 
-    <!-- Details Modal -->
-    <div id="details-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm">
-            <h2 class="text-2xl font-bold mb-4 text-pink-600">Record Details</h2>
-            <p id="detail-name1" class="text-gray-800"></p>
-            <p id="detail-age1" class="text-gray-800"></p>
-            <p id="detail-name2" class="text-gray-800"></p>
-            <p id="detail-age2" class="text-gray-800"></p>
-            <p id="detail-score" class="text-gray-800"></p>
-            <div class="mt-4 space-x-2">
-                <button onclick="editRecord()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Edit</button>
-                <button onclick="deleteRecord()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Delete</button>
-                <button onclick="closeDetails()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Close</button>
-            </div>
-        </div>
+  <!-- Result Overlay -->
+  <div id="result-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div id="result-bubble" class="bg-pink-400 bg-opacity-95 p-8 rounded-lg shadow-2xl text-center max-w-sm animate-bounceIn">
+      <h2 class="text-2xl font-semibold text-white mb-4">Your Compatibility is...</h2>
+      <p id="result-text" class="text-xl text-white font-bold"></p>
+      <button onclick="closeOverlay()" class="mt-6 px-4 py-2 bg-white text-pink-600 rounded-lg hover:bg-gray-100">Close</button>
     </div>
+  </div>
 
-    <!-- Edit Modal -->
-    <div id="edit-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm">
-            <h2 class="text-2xl font-bold mb-4 text-pink-600">Edit Record</h2>
-            <form id="edit-form" class="space-y-2">
-                <input type="text" id="edit-name1" placeholder="Your Name" class="w-full p-3 border rounded-lg">
-                <input type="number" id="edit-age1" placeholder="Your Age" min="1" class="w-full p-3 border rounded-lg">
-                <input type="text" id="edit-name2" placeholder="Her Name" class="w-full p-3 border rounded-lg">
-                <input type="number" id="edit-age2" placeholder="Her Age" min="1" class="w-full p-3 border rounded-lg">
-                <input type="number" id="edit-score" placeholder="Score" min="0" max="100" step="0.01" class="w-full p-3 border rounded-lg">
-                <button type="button" onclick="saveChanges()" class="w-full p-3 bg-green-500 text-white rounded-lg hover:bg-green-600">Save Changes</button>
-            </form>
-            <button onclick="closeEdit()" class="mt-4 w-full p-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Cancel</button>
-        </div>
+  <!-- Details Modal -->
+  <div id="details-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm">
+      <h2 class="text-2xl font-bold mb-4 text-pink-600">Record Details</h2>
+      <p id="detail-name1"></p>
+      <p id="detail-age1"></p>
+      <p id="detail-name2"></p>
+      <p id="detail-age2"></p>
+      <p id="detail-score"></p>
+      <div class="mt-4 space-x-2">
+        <button onclick="editRecord()" class="px-4 py-2 bg-blue-500 text-gray-900 rounded-lg hover:bg-blue-600">Edit</button>
+        <button onclick="deleteRecord()" class="px-4 py-2 bg-red-500 text-gray-900 rounded-lg hover:bg-red-600">Delete</button>
+        <button onclick="closeDetails()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Close</button>
+      </div>
     </div>
+  </div>
 
-    <script src="/script.js"></script>
+  <!-- Edit Modal -->
+  <div id="edit-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm">
+      <h2 class="text-2xl font-bold mb-4 text-pink-600">Edit Record</h2>
+      <form id="edit-form" class="space-y-2">
+        <input type="text" id="edit-name1" placeholder="Your Name" class="w-full p-3 border rounded-lg">
+        <input type="number" id="edit-age1" placeholder="Your Age" min="1" class="w-full p-3 border rounded-lg">
+        <input type="text" id="edit-name2" placeholder="Her Name" class="w-full p-3 border rounded-lg">
+        <input type="number" id="edit-age2" placeholder="Her Age" min="1" class="w-full p-3 border rounded-lg">
+        <input type="number" id="edit-score" placeholder="Score" min="0" max="100" step="0.01" class="w-full p-3 border rounded-lg">
+        <button type="button" onclick="saveChanges()" class="w-full p-3 bg-green-500 text-white rounded-lg hover:bg-green-600">Save Changes</button>
+      </form>
+      <button onclick="closeEdit()" class="mt-4 w-full p-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Cancel</button>
+    </div>
+  </div>
+
+  <script src="/script.js"></script>
 </body>
 </html>
