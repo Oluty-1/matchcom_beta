@@ -18,6 +18,14 @@
       <button onclick="calculateCompatibility()" class="w-full p-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition">Calculate Love Score</button>
     </div>
   </div>
+  
+  <!-- Section to display past records -->
+  <div id="records-list" class="mt-8 max-w-md w-full">
+    <h2 class="text-2xl font-bold text-pink-600 mb-4">Past Compatibility Records</h2>
+    <div id="records-container" class="space-y-2"></div>
+  </div>
+
+  <!-- Overlay for result -->
   <div id="result-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div id="result-bubble" class="bg-pink-300 bg-opacity-90 p-8 rounded-lg shadow-xl text-center max-w-sm animate-fadeIn">
       <h2 class="text-2xl font-semibold text-white mb-4">Your Compatibility is...</h2>
@@ -25,6 +33,38 @@
       <button onclick="closeOverlay()" class="mt-6 px-4 py-2 bg-white text-pink-600 rounded-lg hover:bg-gray-100">Close</button>
     </div>
   </div>
+
+  <!-- Modal for viewing record details -->
+  <div id="details-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm">
+      <h2 class="text-2xl font-bold mb-4">Record Details</h2>
+      <p id="detail-name1"></p>
+      <p id="detail-age1"></p>
+      <p id="detail-name2"></p>
+      <p id="detail-age2"></p>
+      <p id="detail-score"></p>
+      <button onclick="editRecord()" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">Edit</button>
+      <button onclick="deleteRecord()" class="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg">Delete</button>
+      <button onclick="closeDetails()" class="mt-4 px-4 py-2 bg-gray-500 text-white rounded-lg">Close</button>
+    </div>
+  </div>
+
+  <!-- Modal for editing record -->
+  <div id="edit-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm">
+      <h2 class="text-2xl font-bold mb-4">Edit Record</h2>
+      <form id="edit-form">
+        <input type="text" id="edit-name1" placeholder="First Person's Name" class="w-full p-3 border rounded-lg mb-2">
+        <input type="number" id="edit-age1" placeholder="First Person's Age" min="1" class="w-full p-3 border rounded-lg mb-2">
+        <input type="text" id="edit-name2" placeholder="Second Person's Name" class="w-full p-3 border rounded-lg mb-2">
+        <input type="number" id="edit-age2" placeholder="Second Person's Age" min="1" class="w-full p-3 border rounded-lg mb-2">
+        <input type="number" id="edit-score" placeholder="Score" min="0" max="100" step="0.01" class="w-full p-3 border rounded-lg mb-4">
+        <button type="button" onclick="saveChanges()" class="w-full p-3 bg-green-500 text-white rounded-lg">Save Changes</button>
+      </form>
+      <button onclick="closeEdit()" class="mt-4 px-4 py-2 bg-gray-500 text-white rounded-lg">Cancel</button>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
