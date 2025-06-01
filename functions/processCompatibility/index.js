@@ -5,6 +5,12 @@ const TABLE_NAME = process.env.TABLE_NAME;
 
 exports.handler = async (event) => {
   const start = Date.now(); // Start time for latency measurement
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "OPTIONS,POST"
+  };
+
   try {
     for (const record of event.Records) {
       const message = JSON.parse(record.body);
@@ -23,20 +29,20 @@ exports.handler = async (event) => {
       }));
     }
 
-    const latency = Date.now() - start; // Calculate latency
+    const latency = Date.now() - start;
     console.log(JSON.stringify({
       level: "Info",
       operation: "SQS",
       status: 200,
       latency: latency
     }));
-
     return {
       statusCode: 200,
+      headers: corsHeaders,
       body: JSON.stringify({ message: 'Processed successfully' })
     };
   } catch (error) {
-    const latency = Date.now() - start; // Calculate latency even on error
+    const latency = Date.now() - start;
     console.log(JSON.stringify({
       level: "Error",
       operation: "SQS",
@@ -46,6 +52,7 @@ exports.handler = async (event) => {
     }));
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Internal server error' })
     };
   }

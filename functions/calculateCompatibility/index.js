@@ -6,21 +6,29 @@ const QUEUE_URL = process.env.SQS_QUEUE_URL;
 
 exports.handler = async (event) => {
   const start = Date.now(); // Start time for latency measurement
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "OPTIONS,POST"
+  };
+
   try {
-    const body = JSON.parse(event.body);
+    const body = JSON.parse(event.body || '{}');
     const { user1, user2, age1, age2, score } = body;
 
     // Input validation
     if (!user1 || !user2 || !age1 || !age2 || !score || age1 <= 0 || age2 <= 0 || score < 0 || score > 100) {
       const latency = Date.now() - start;
       console.log(JSON.stringify({
-        level: "Info",
+        level: "Error",
         operation: "POST",
         status: 400,
-        latency: latency
+        latency: latency,
+        error: 'Invalid input: all fields required, ages must be positive, score must be 0-100'
       }));
       return {
         statusCode: 400,
+        headers: corsHeaders,
         body: JSON.stringify({ error: 'Invalid input: all fields required, ages must be positive, score must be 0-100' })
       };
     }
@@ -42,6 +50,7 @@ exports.handler = async (event) => {
     }));
     return {
       statusCode: 200,
+      headers: corsHeaders,
       body: JSON.stringify({ id, score })
     };
   } catch (error) {
@@ -55,6 +64,7 @@ exports.handler = async (event) => {
     }));
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Internal server error' })
     };
   }

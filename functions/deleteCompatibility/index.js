@@ -5,6 +5,12 @@ const TABLE_NAME = process.env.TABLE_NAME;
 
 exports.handler = async (event) => {
   const start = Date.now(); // Start time for latency measurement
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "OPTIONS,DELETE"
+  };
+
   try {
     const id = event.pathParameters.id;
 
@@ -25,6 +31,7 @@ exports.handler = async (event) => {
     }));
     return {
       statusCode: 200,
+      headers: corsHeaders,
       body: JSON.stringify({ message: 'Deleted successfully' })
     };
   } catch (error) {
@@ -38,6 +45,7 @@ exports.handler = async (event) => {
     }));
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Internal server error' })
     };
   }
