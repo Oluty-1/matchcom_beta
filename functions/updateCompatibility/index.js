@@ -3,7 +3,7 @@ AWS.config.update({ region: process.env.AWS_REGION });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
-  const start = Date.now(); // Start time for latency measurement
+  const start = Date.now();
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
@@ -11,18 +11,39 @@ exports.handler = async (event) => {
   };
 
   try {
-    const id = event.pathParameters.id;
-    const body = JSON.parse(event.body || '{}');
+    const id = event.pathParameters?.id;
+    if (!id) {
+      throw new Error('Missing ID in path parameters');
+    }
 
-    // Update item in DynamoDB
+    const body = JSON.parse(event.body || '{}');
+    const { user1, user2, score } = body;
+
+    // Validate input
+    if (!user1 || !user2 || typeof score !== 'number' || score < 0 || score > 100) {
+      const latency = Date.now() - start;
+      console.log(JSON.stringify({
+        level: "Error",
+        operation: "PUT",
+        status: 400,
+        latency: latency,
+        error: 'Invalid input: user1, user2, and score (0-100) are required'
+      }));
+      return {
+        statusCode: 400,
+        headers: corsHeaders,
+        body: JSON.stringify({ error: 'Invalid input: user1, user2, and score (0-100) are required' })
+      };
+    }
+
     await dynamodb.update({
       TableName: process.env.TABLE_NAME,
       Key: { id },
       UpdateExpression: 'set score = :score, user1 = :user1, user2 = :user2',
       ExpressionAttributeValues: {
-        ':score': body.score || 0,
-        ':user1': body.user1,
-        ':user2': body.user2
+        ':score': score,
+        ':user1': user1,
+        ':user2': user2
       },
       ConditionExpression: 'attribute_exists(id)'
     }).promise();
@@ -49,9 +70,9 @@ exports.handler = async (event) => {
       error: error.message
     }));
     return {
-      statusCode: 500,
+      statusCode: error.message.includes('Invalid input') ? 400 : 500,
       headers: corsHeaders,
-      body: JSON.stringify({ error: 'Internal server error' })
+      body: JSON.stringify({ error: error.message.includes('Invalid input') ? error.message : 'Internal server error' })
     };
   }
 };
