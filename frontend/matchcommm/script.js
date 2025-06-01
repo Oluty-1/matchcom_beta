@@ -38,6 +38,7 @@ async function sendToBackend(name1, age1, name2, age2, score) {
     }
   } catch (error) {
     showResult('Failed to connect to the server.');
+    console.error('Error sending data:', error);
   }
 }
 
@@ -51,18 +52,27 @@ async function fetchRecords() {
     displayRecords(records);
   } catch (error) {
     console.error('Error fetching records:', error);
+    displayRecords([]); // Fallback to empty array
   }
 }
 
 function displayRecords(records) {
   const container = document.getElementById('records-container');
   container.innerHTML = '';
+  if (!Array.isArray(records) || records.length === 0) {
+    container.innerHTML = '<p class="text-gray-500">No records found.</p>';
+    return;
+  }
   records.forEach(record => {
     const recordDiv = document.createElement('div');
-    recordDiv.classList.add('p-4', 'border', 'rounded-lg', 'mb-2');
+    recordDiv.classList.add('p-4', 'border', 'rounded-lg', 'mb-2', 'bg-gray-50');
     recordDiv.innerHTML = `
-      <p>${record.user1} and ${record.user2}: ${record.score}%</p>
-      <button onclick="viewRecord('${record.id}')" class="text-blue-500">View</button>
+      <p class="font-medium">${record.user1} & ${record.user2}: ${record.score}%</p>
+      <div class="mt-2 space-x-2">
+        <button onclick="viewRecord('${record.id}')" class="text-blue-500 hover:underline">View</button>
+        <button onclick="editRecord('${record.id}')" class="text-green-500 hover:underline">Edit</button>
+        <button onclick="deleteRecord('${record.id}')" class="text-red-500 hover:underline">Delete</button>
+      </div>
     `;
     container.appendChild(recordDiv);
   });
@@ -75,9 +85,14 @@ async function viewRecord(id) {
       headers: { 'Content-Type': 'application/json' }
     });
     const record = await response.json();
-    showDetails(record);
+    if (response.ok) {
+      showDetails(record);
+    } else {
+      alert(`Error: ${record.error}`);
+    }
   } catch (error) {
     console.error('Error fetching record:', error);
+    alert('Failed to fetch record.');
   }
 }
 
@@ -95,21 +110,23 @@ function closeDetails() {
   document.getElementById('details-modal').classList.add('hidden');
 }
 
-function editRecord() {
-  const name1 = document.getElementById('detail-name1').innerText.split(': ')[1];
-  const age1 = document.getElementById('detail-age1').innerText.split(': ')[1];
-  const name2 = document.getElementById('detail-name2').innerText.split(': ')[1];
-  const age2 = document.getElementById('detail-age2').innerText.split(': ')[1];
-  const score = document.getElementById('detail-score').innerText.split(': ')[1].replace('%', '');
+function editRecord(id) {
+  viewRecord(id).then(() => {
+    const name1 = document.getElementById('detail-name1').innerText.split(': ')[1];
+    const age1 = document.getElementById('detail-age1').innerText.split(': ')[1];
+    const name2 = document.getElementById('detail-name2').innerText.split(': ')[1];
+    const age2 = document.getElementById('detail-age2').innerText.split(': ')[1];
+    const score = document.getElementById('detail-score').innerText.split(': ')[1].replace('%', '');
 
-  document.getElementById('edit-name1').value = name1;
-  document.getElementById('edit-age1').value = age1;
-  document.getElementById('edit-name2').value = name2;
-  document.getElementById('edit-age2').value = age2;
-  document.getElementById('edit-score').value = score;
+    document.getElementById('edit-name1').value = name1;
+    document.getElementById('edit-age1').value = age1;
+    document.getElementById('edit-name2').value = name2;
+    document.getElementById('edit-age2').value = age2;
+    document.getElementById('edit-score').value = score;
 
-  document.getElementById('edit-modal').classList.remove('hidden');
-  closeDetails();
+    document.getElementById('edit-modal').classList.remove('hidden');
+    closeDetails();
+  });
 }
 
 function closeEdit() {
@@ -118,12 +135,18 @@ function closeEdit() {
 
 async function saveChanges() {
   const updatedData = {
-    user1: document.getElementById('edit-name1').value,
+    user1: document.getElementById('edit-name1').value.trim(),
     age1: parseInt(document.getElementById('edit-age1').value),
-    user2: document.getElementById('edit-name2').value,
+    user2: document.getElementById('edit-name2').value.trim(),
     age2: parseInt(document.getElementById('edit-age2').value),
     score: parseFloat(document.getElementById('edit-score').value)
   };
+
+  if (!updatedData.user1 || !updatedData.user2 || isNaN(updatedData.age1) || isNaN(updatedData.age2) || isNaN(updatedData.score) || updatedData.age1 <= 0 || updatedData.age2 <= 0 || updatedData.score < 0 || updatedData.score > 100) {
+    alert('Please enter valid names, ages, and score (0-100).');
+    return;
+  }
+
   try {
     const response = await fetch(`${API_URL}/compatibility/${currentRecordId}`, {
       method: 'PUT',
@@ -133,35 +156,40 @@ async function saveChanges() {
     if (response.ok) {
       closeEdit();
       fetchRecords();
+      alert('Record updated successfully.');
     } else {
       const errorData = await response.json();
       alert(`Error: ${errorData.error}`);
     }
   } catch (error) {
     console.error('Error updating record:', error);
+    alert('Failed to update record.');
   }
 }
 
-function deleteRecord() {
+function deleteRecord(id) {
   if (confirm('Are you sure you want to delete this record?')) {
-    deleteRecordRequest(currentRecordId);
+    deleteRecordRequest(id);
   }
 }
 
 async function deleteRecordRequest(id) {
   try {
     const response = await fetch(`${API_URL}/compatibility/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
     });
     if (response.ok) {
       closeDetails();
       fetchRecords();
+      alert('Record deleted successfully.');
     } else {
       const errorData = await response.json();
       alert(`Error: ${errorData.error}`);
     }
   } catch (error) {
     console.error('Error deleting record:', error);
+    alert('Failed to delete record.');
   }
 }
 
@@ -176,6 +204,18 @@ function closeOverlay() {
   const overlay = document.getElementById('result-overlay');
   overlay.classList.add('hidden');
 }
+
+// Sidebar Toggle
+document.getElementById('menu-toggle').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('-translate-x-full');
+  fetchRecords(); // Refresh records when opening
+});
+
+document.getElementById('close-sidebar').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.add('-translate-x-full');
+});
 
 window.onload = function() {
   fetchRecords();
