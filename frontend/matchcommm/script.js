@@ -31,7 +31,7 @@ async function sendToBackend(name1, age1, name2, age2, score) {
 
     const data = await response.json();
     if (response.ok) {
-      currentRecordId = data.id; // Store ID for viewing
+      currentRecordId = data.id;
       showResult(`Compatibility Score: ${data.score}%`);
     } else {
       showResult(`Error: ${data.error}`);
@@ -120,7 +120,7 @@ async function saveChanges() {
     if (response.ok) {
       closeEdit();
       alert('Record updated successfully.');
-      viewLatestRecord(); // Refresh details
+      viewLatestRecord();
     } else {
       const errorData = await response.json();
       alert(`Error: ${errorData.error}`);
@@ -145,7 +145,7 @@ async function deleteRecordRequest() {
     });
     if (response.ok) {
       closeDetails();
-      currentRecordId = null; // Clear ID
+      currentRecordId = null;
       alert('Record deleted successfully.');
     } else {
       const errorData = await response.json();
