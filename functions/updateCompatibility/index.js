@@ -1,6 +1,6 @@
-const AWS = require('aws-sdk');
-AWS.config.update({ region: process.env.AWS_REGION });
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const { DynamoDBClient, UpdateItemCommand } = require('@aws-sdk/client-dynamodb');
+
+const dynamoDBClient = new DynamoDBClient({ region: process.env.AWS_REGION });
 
 exports.handler = async (event) => {
   const start = Date.now();
@@ -36,17 +36,17 @@ exports.handler = async (event) => {
       };
     }
 
-    await dynamodb.update({
+    await dynamoDBClient.send(new UpdateItemCommand({
       TableName: process.env.TABLE_NAME,
-      Key: { id },
-      UpdateExpression: 'set score = :score, user1 = :user1, user2 = :user2',
+      Key: { id: { S: id } },
+      UpdateExpression: 'SET score = :score, user1 = :user1, user2 = :user2',
       ExpressionAttributeValues: {
-        ':score': score,
-        ':user1': user1,
-        ':user2': user2
+        ':score': { N: score.toString() },
+        ':user1': { S: user1 },
+        ':user2': { S: user2 }
       },
       ConditionExpression: 'attribute_exists(id)'
-    }).promise();
+    }));
 
     const latency = Date.now() - start;
     console.log(JSON.stringify({
@@ -65,7 +65,7 @@ exports.handler = async (event) => {
     console.log(JSON.stringify({
       level: "Error",
       operation: "PUT",
-      status: 500,
+      status: error.message.includes('Invalid input') ? 400 : 500,
       latency: latency,
       error: error.message
     }));
