@@ -108,3 +108,9 @@ variable "analytics_emails" {
   type        = list(string)
   default     = []
 }
+
+variable "dlq_arn" {
+  description = "ARN of the Dead-Letter Queue for Lambda"
+  type        = string
+  default     = ""
+}

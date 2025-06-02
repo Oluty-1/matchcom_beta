@@ -31,6 +31,7 @@ module "calculate_compatibility" {
   enable_sqs              = false
   enable_api_gateway      = true
   analytics_emails        = ["tayoefunshile@gmail.com"]
+  dlq_arn                 = module.shared.queue_dlq_arn
 }
 
 module "process_compatibility" {
@@ -54,6 +55,7 @@ module "process_compatibility" {
   enable_sqs              = true
   enable_api_gateway      = false
   analytics_emails        = ["tayoefunshile@gmail.com"]
+  dlq_arn                 = module.shared.queue_dlq_arn
 }
 
 module "get_compatibility" {
@@ -76,6 +78,7 @@ module "get_compatibility" {
   enable_sqs              = false
   enable_api_gateway      = true
   analytics_emails        = ["tayoefunshile@gmail.com"]
+  dlq_arn                 = module.shared.queue_dlq_arn
 }
 
 module "update_compatibility" {
@@ -97,6 +100,7 @@ module "update_compatibility" {
   enable_sqs              = false
   enable_api_gateway      = true
   analytics_emails        = ["tayoefunshile@gmail.com"]
+  dlq_arn                 = module.shared.queue_dlq_arn
 }
 
 module "delete_compatibility" {
@@ -118,4 +122,5 @@ module "delete_compatibility" {
   enable_sqs              = false
   enable_api_gateway      = true
   analytics_emails        = ["tayoefunshile@gmail.com"]
+  dlq_arn                 = module.shared.queue_dlq_arn
 }

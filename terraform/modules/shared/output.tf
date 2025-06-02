@@ -25,3 +25,7 @@ output "compatibility_id_resource_id" {
 output "api_url" {
   value = "https://${aws_api_gateway_rest_api.compatibility_api.id}.execute-api.${var.region}.amazonaws.com/${var.environment}"
 }
+
+output "queue_dlq_arn" {
+  value = aws_sqs_queue.compatibility_dlq.arn
+}

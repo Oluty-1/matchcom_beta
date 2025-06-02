@@ -17,6 +17,18 @@ resource "aws_lambda_function" "lambda" {
   s3_bucket        = var.s3_bucket
   s3_key           = var.s3_key
   source_code_hash = data.aws_s3_object.lambda_zip.metadata["source_code_hash"]
+  
+#  provisioned_concurrency_config {
+#    provisioned_concurrent_executions = 5  
+#  }
+#
+#   Concurrency Management: Reserved Concurrency
+#  reserved_concurrent_executions = 10  
+#
+#  dead_letter_config {
+#    target_arn = var.dlq_arn 
+#  }
+  
   environment {
     variables = merge(
       {
@@ -27,7 +39,7 @@ resource "aws_lambda_function" "lambda" {
     )
   }
   tracing_config {
-    mode = "Active" # Enable X-Ray tracing
+    mode = "Active" 
   }
 }
 
