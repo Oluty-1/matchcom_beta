@@ -1,6 +1,6 @@
 # Matchcom_Beta
 
-This is a serverless AWS application to calculate and manage compatibility scores between users, built with API Gateway, Lambda, SQS, DynamoDB, and deployed using Terraform. This project demonstrates a scalable, highly available architecture with robust observability.
+This is a serverless AWS application to calculate and manage compatibility scores between users, built with API Gateway, Lambda, SQS, DynamoDB, and deployed using Terraform. This project demonstrates a scalable, highly available architecture with observability, and it's built to trigget all the HTTP requests (POST, GET, DELETE, PUT)
 
 ## Overview
 
