@@ -57,7 +57,12 @@ API Gateway: Handles REST endpoints (/compatibility, /compatibility/{id}) for PO
 - Upload to s3
 - Creat Lambda and Point to s3
 
+## Deployment Strategy
 
+One of main focus for the entire architecture was decoupling all the services, having them manages and deployed indepently of each other. that way, deployment related problems are much easier to troubleshoot and fix.
+1. Each function has an individual CI/CD pipeline to isolate deployment.
+2. Infrastructure for shared resources has it's own pipeline to ensure changes to it are made acrodd the infrastucture
+3. Simplified pipeline by concolidating the build and deployment staged for the services into a single shared template which can be called by individual pipelines
 
 For local deployment
 
